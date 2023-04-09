@@ -1,5 +1,5 @@
 import React from 'react';
-import { Game_State_Playin, Game_State_win } from '../Constant';
+import { Game_State_Drow, Game_State_Playin, Game_State_win} from '../Constant';
 
 const Hearder = ({gameState, currentPlayer, winPlayer}) => {
   const renderLabel = () => {
@@ -8,6 +8,8 @@ const Hearder = ({gameState, currentPlayer, winPlayer}) => {
         return <div>Player {currentPlayer} turn </div>
         case Game_State_win:
           return <div>Player {winPlayer} wins </div>
+          case Game_State_Drow:
+            return <div>Game is a Draw</div>
           default :
     }
   }

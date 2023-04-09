@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import '../Game.css';
 import GameCircle from './GameCircle';
 import Hearder from './Hearder';
 import Footer from './footer';
-import { isWinner } from '../helper';
-import { Game_State_Playin,Game_State_win, NO_player, PLAYER_1, PLAYER_2, NO_circle } from '../Constant';
+import { isWinner, isDraw } from '../helper';
+import { Game_State_Playin,Game_State_win, NO_player, PLAYER_1, PLAYER_2, NO_circle, Game_State_Drow } from '../Constant';
 
 const Gamebored = () => {
     const [gameBord, setGameBored] = useState(Array(16).fill(NO_player));
@@ -13,6 +13,15 @@ const Gamebored = () => {
     const [winPlayer, setwinPlayer] = useState(NO_player);
 
     console.log(gameBord);
+
+    useEffect(() => {
+        initGame();
+    }, []);
+
+    const initGame = () => {
+        setGameBored(Array(16).fill(NO_player));
+        setcurrentPlayer(PLAYER_1);
+    }
 
     const initBord = () => {
         const circles = [];
@@ -29,6 +38,11 @@ const Gamebored = () => {
         if (isWinner(gameBord, id, currentPlayer)) { 
             setgameState(Game_State_win);
             setwinPlayer(currentPlayer);
+        }
+
+        if (isDraw(gameBord, id, currentPlayer)) { 
+            setgameState(Game_State_Drow);
+            setwinPlayer(NO_player);
         }
 
         
@@ -60,7 +74,7 @@ const Gamebored = () => {
         <div className= "gamebord">
         {initBord()}
     </div>
-    <Footer />
+    <Footer onClickEvent = {initGame} />
     </>
     )
 }
