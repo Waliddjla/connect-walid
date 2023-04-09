@@ -1,36 +1,67 @@
-import React from 'react';
+import React, {useState} from 'react';
+import '../Game.css';
 import GameCircle from './GameCircle';
-
+import Hearder from './Hearder';
+import Footer from './footer';
+import { isWinner } from '../helper';
+import { Game_State_Playin,Game_State_win, NO_player, PLAYER_1, PLAYER_2, NO_circle } from '../Constant';
 
 const Gamebored = () => {
+    const [gameBord, setGameBored] = useState(Array(16).fill(NO_player));
+    const [currentPlayer, setcurrentPlayer] = useState(PLAYER_1);
+    const [gameState, setgameState] = useState(Game_State_Playin);
+    const [winPlayer, setwinPlayer] = useState(NO_player);
+
+    console.log(gameBord);
+
+    const initBord = () => {
+        const circles = [];
+        for (let i = 0; i < NO_circle; i++) {
+           circles.push(renderCircle(i)) ;
+         }
+         return circles;
+
+    }
+
+    const circleClicked = (id) => {
+        console.log('circle : ' + id);
+
+        if (isWinner(gameBord, id, currentPlayer)) { 
+            setgameState(Game_State_win);
+            setwinPlayer(currentPlayer);
+        }
+
+        
+        setGameBored(prev => {
+            return prev.map((circle, pos) => {
+                if (pos === id) return currentPlayer;
+                return circle;
+            })
+        })
+
+      
+        setcurrentPlayer(currentPlayer === PLAYER_1 ? PLAYER_2 : PLAYER_1);
+
+        console.log(gameBord);
+        console.log(currentPlayer);
+        }
+
+    const renderCircle = (id)=> {
+
+        return <GameCircle key={id} 
+        id={id} 
+        className={`player_${gameBord[id]}`} 
+        onCircleClicked={circleClicked}/> 
+    }
+
     return (
-        <div style={{display: 'grid', gridTemplateCloumns:'1fr 1fr 1fr 1fr',  gridTemplateRows:'1fr 1fr 1fr 1fr'}}>
-    <GameCircle id={1} color="red"> 
-        <span style={{ color: 'red' }}>Red</span>
-    </GameCircle>
-    <GameCircle id={2} color="blue"> 
-    <span style={{ color: 'blue' }}>Blue</span>
-    </GameCircle>
-    <GameCircle id={3} color="red">
-    <span style={{ color: 'red' }}>Red</span>
-    </GameCircle>
-    <GameCircle id={4} color="blue">
-    <span style={{ color: 'blue' }}>Blue</span>
-    </GameCircle>
-    <GameCircle id={5} color="red">
-    <span style={{ color: 'red' }}>Red</span>
-    </GameCircle>
-    <GameCircle id={6} color="blue">
-    <span style={{ color: 'blue' }}>Blue</span>
-    </GameCircle>
-    <GameCircle id={7} color="red">
-    <span style={{ color: 'red' }}>Red</span>
-    </GameCircle>
-    <GameCircle id={8} color="blue">
-    <span style={{ color: 'blue' }}>Blue</span>
-    </GameCircle>
-    
+        <> 
+        <Hearder gameState= {gameState} currentPlayer={currentPlayer} winPlayer={winPlayer} />
+        <div className= "gamebord">
+        {initBord()}
     </div>
+    <Footer />
+    </>
     )
 }
 

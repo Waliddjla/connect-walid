@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Gamebored from './components/Gamebored';
+import App from './components/App';
 
 ReactDOM.render(
-    <Gamebored />,
+    <App />,
     document.getElementById('root')
 
 );
