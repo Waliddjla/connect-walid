@@ -3,7 +3,7 @@ import '../Game.css';
 import GameCircle from './GameCircle';
 import Hearder from './Hearder';
 import Footer from './footer';
-import { isWinner, isDraw } from '../helper';
+import { isWinner, isDraw, getComputerMove } from '../helper';
 import { Game_State_Playin,Game_State_win, NO_player, PLAYER_1, PLAYER_2, NO_circle, Game_State_Drow } from '../Constant';
 
 const Gamebored = () => {
@@ -21,6 +21,7 @@ const Gamebored = () => {
     const initGame = () => {
         setGameBored(Array(16).fill(NO_player));
         setcurrentPlayer(PLAYER_1);
+        setgameState(Game_State_Playin);
     }
 
     const initBord = () => {
@@ -30,6 +31,9 @@ const Gamebored = () => {
          }
          return circles;
 
+    }
+    const suggestMove = () => {
+     circleClicked(getComputerMove(gameBord));
     }
 
     const circleClicked = (id) => {
@@ -74,7 +78,7 @@ const Gamebored = () => {
         <div className= "gamebord">
         {initBord()}
     </div>
-    <Footer onClickEvent = {initGame} />
+    <Footer onNewgameClick = {initGame} OnSugestClick={suggestMove}/>
     </>
     )
 }
