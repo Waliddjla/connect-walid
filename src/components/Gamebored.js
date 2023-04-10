@@ -7,7 +7,7 @@ import { isWinner, isDraw, getComputerMove } from '../helper';
 import { Game_State_Playin,Game_State_win, NO_player, PLAYER_1, PLAYER_2, NO_circle, Game_State_Drow } from '../Constant';
 
 const Gamebored = () => {
-    const [gameBord, setGameBored] = useState(Array(16).fill(NO_player));
+    const [gameBord, setGameBored] = useState(Array(NO_circle).fill(NO_player));
     const [currentPlayer, setcurrentPlayer] = useState(PLAYER_1);
     const [gameState, setgameState] = useState(Game_State_Playin);
     const [winPlayer, setwinPlayer] = useState(NO_player);
@@ -19,7 +19,7 @@ const Gamebored = () => {
     }, []);
 
     const initGame = () => {
-        setGameBored(Array(16).fill(NO_player));
+        setGameBored(Array(NO_circle).fill(NO_player));
         setcurrentPlayer(PLAYER_1);
         setgameState(Game_State_Playin);
     }
@@ -78,7 +78,7 @@ const Gamebored = () => {
         <div className= "gamebord">
         {initBord()}
     </div>
-    <Footer onNewgameClick = {initGame} OnSugestClick={suggestMove}/>
+    <Footer onNewgameClick = {initGame} OnSugestClick={suggestMove} gameState={gameState} /> 
     </>
     )
 }
